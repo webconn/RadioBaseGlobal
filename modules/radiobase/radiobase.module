@@ -1,0 +1,107 @@
+<?php
+
+define("RB_ROOT", dirname(__FILE__));
+
+function radiobase_boot()
+{
+    //define("RB_ROOT", dirname(__FILE__));
+    // Include modules   
+
+    // Init modules
+    RB_Database::setConnection();
+}
+
+function radiobase_block_info()
+{
+    $blocks['rb_num_entries'] = array(
+        'info' => t('Num entries in Radiobase'),
+        'cache' => DRUPAL_NO_CACHE
+    );
+    
+    return $blocks;
+}
+
+function radiobase_menu()
+{
+    require_once (RB_ROOT . "/includes/menu.inc");
+    return _radiobase_menu();
+}
+
+function radiobase_search_devices()
+{
+    require_once (RB_ROOT . "/includes/search.inc");
+    return _radiobase_search_devices();
+}
+
+function radiobase_page_devices($request)
+{
+    require_once (RB_ROOT . "/includes/devices.inc");
+    return _radiobase_page_devices($request);
+}
+
+function radiobase_add_device()
+{
+    require_once (RB_ROOT . "/includes/devices.inc");
+    return _radiobase_add_device();
+}
+
+function radiobase_block_view($delta)
+{
+    switch($delta)
+    {
+        case 'rb_num_entries':
+            $block['subject'] = t('Number of entries');
+            if(user_access('access content'))
+            {
+                $num_parts = RB_Database::numParts();
+                
+                if($num_parts == 0)
+                    $content = t("There are no parts in database");
+                else if($num_parts == 1)
+                    $content = t("There is 1 part in database");
+                else
+                    $content = t("There are @num parts in database", array("@num" => $num_parts));
+                
+                $block['content'] = $content;
+            }
+            
+            break;
+    }
+    
+    return $block;
+}
+
+function radiobase_permission()
+{
+    return array(
+        "rb add items" => array(
+            "title" => t("Add items in database"),
+            "description" => t("Allow user to add items in database")
+        ),
+        
+        "rb edit items" => array(
+            "title" => t("Edit items in database"),
+            "description" => t("Allow user to edit items stored in database")
+        ),
+        
+        "rb admin items" => array(
+            "title" => t("Administrator rights"),
+            "description" => t("Allow user to administer database (ex. undo changes from log)")
+        ),
+        
+        "rb add shops" => array(
+            "title" => t("Add shops"),
+            "description" => t("Allow user to add new shops in database")
+        ),
+        
+        "rb edit shops" => array(
+            "title" => t("Edit shops"),
+            "description" => t("Allow user to edit shops in database")
+        ),
+        
+        "rb update prices" => array(
+            "title" => t("Update prices"),
+            "description" => t("Allow user to update prices")
+        )
+    );
+}

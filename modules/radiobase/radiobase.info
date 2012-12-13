@@ -1,0 +1,9 @@
+; $Id$
+name = RadioBase Manager Module
+description = "RadioBase project Drupal module"
+core = 7.x
+
+package = "RadioBase"
+version = "7.x-0.1-dev"
+
+files[] = includes/database.inc
