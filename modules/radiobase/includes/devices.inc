@@ -14,8 +14,11 @@ function _radiobase_page_devices($request)
             if(user_access("rb add items")) $list[] = l(t("Add new device"), "devices/add");
             
             $output = theme("item_list", array("items" => $list, "title" => t("Actions")));
+            $output .= RB_Database::createCatView(1);
+
             
             break;
+        
     }
     
     return $output;
