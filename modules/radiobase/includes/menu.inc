@@ -15,11 +15,11 @@ function _radiobase_menu()
 
     // List devices from database
     
-    $items["devices/list"] = array(
+    $items["devices/list/%"] = array(
         "title" => "List devices",
         "description" => "Show the list of the devices in global RadioBase",
         "page callback" => "radiobase_page_devices",
-        "page arguments" => array("list devices"),
+        "page arguments" => array("list devices", 2),
         "access arguments" => array("access content"),
         "type" => MENU_LOCAL_TASK
     );

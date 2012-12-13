@@ -65,6 +65,11 @@ class RB_Database extends Database
         return self::$connection->query("SELECT * FROM `cases`")->rowCount();
     }
     
+    public static function query($query, $args=array(), $options=array())
+    {
+        return self::$connection->query($query, $args, $options);
+    }
+
     public static function createCatView($category, $overwrite=true)
     {
         if(!self::$connection)
@@ -78,6 +83,8 @@ class RB_Database extends Database
         
         // Step 1. Collection data about features
         
+        settype($category, "integer");
+
         $features = array();
         $parent = $category;
         
@@ -110,8 +117,42 @@ class RB_Database extends Database
         }
 
         // 3. Combining query
-        $query = "CREATE".($overwrite ? " OR REPLACE " : " ")."VIEW cat_view_:cat AS SELECT parts.id AS partID, parts.device AS deviceID, CONCAT(devices.name, parts.modification) AS deviceName, parts.case AS caseID, cases.name AS caseName, parts.manufacture AS manID, manufactures.name AS manName".($numFeatures > 0 ? ", ".$featureRows : "")." FROM parts, cases, devices, manufactures WHERE parts.manufacture = manufactures.id AND parts.device = devices.id AND parts.case = cases.id";
+        $query = "CREATE".($overwrite ? " OR REPLACE " : " ")."VIEW cat_view_".$category." AS SELECT parts.id AS partID, parts.device AS deviceID, CONCAT(devices.name, parts.modification) AS deviceName, parts.case AS caseID, cases.name AS caseName, parts.manufacture AS manID, manufactures.name AS manName, devices.category AS catID, categories.name AS catName".($numFeatures > 0 ? ", ".$featureRows : "")." FROM parts, cases, devices, manufactures, categories WHERE parts.manufacture = manufactures.id AND parts.device = devices.id AND parts.case = cases.id AND devices.category = categories.id";
+        
+        // 4. Run query
+        return self::$connection->query($query);
+    }
 
-        return $query;
+    public static function getCatFilter($category)
+    {
+        setType($category, "integer");
+
+        // We need to collect category children and build a filter
+
+        // 1. Get children
+        $children = self::_getCatChildren($category);
+        
+        // 2. Create query string
+        return "`catID` = ".implode(" OR `catID` = ", $children);
+
+    }
+
+    private static function _getCatChildren($category)
+    {
+        // TODO : cache feature
+        settype($category, "integer");
+        $return = array($category);
+
+        $query = "SELECT `id` FROM `categories` WHERE `parent` = :cat";
+        $result = self::$connection->query($query, array(":cat" => $category));
+        $num = $result->rowCount();
+
+        for($i=0; $i<$num; $i++)
+        {
+            $r = $result->fetchAssoc();
+            $return = array_merge($return, self::_getCatChildren($r["id"]));
+        }
+        
+        return $return;
     }
 }

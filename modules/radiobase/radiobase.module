@@ -33,10 +33,10 @@ function radiobase_search_devices()
     return _radiobase_search_devices();
 }
 
-function radiobase_page_devices($request)
+function radiobase_page_devices($request, $category=0)
 {
     require_once (RB_ROOT . "/includes/devices.inc");
-    return _radiobase_page_devices($request);
+    return _radiobase_page_devices($request, $category);
 }
 
 function radiobase_add_device()
