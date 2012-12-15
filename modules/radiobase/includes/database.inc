@@ -62,11 +62,13 @@ class RB_Database extends Database
     {
         if(!self::$connection)
             self::setConnection();
-        return self::$connection->query("SELECT * FROM `cases`")->rowCount();
+        return self::$connection->query("SELECT * FROM `parts`")->rowCount();
     }
     
     public static function query($query, $args=array(), $options=array())
     {
+        if(!self::$connection)
+            self::setConnection();
         return self::$connection->query($query, $args, $options);
     }
 
@@ -125,6 +127,8 @@ class RB_Database extends Database
 
     public static function getCatFilter($category)
     {
+        if(!self::$connection)
+            self::setConnection();
         setType($category, "integer");
 
         // We need to collect category children and build a filter
@@ -153,6 +157,40 @@ class RB_Database extends Database
             $return = array_merge($return, self::_getCatChildren($r["id"]));
         }
         
+        return $return;
+    }
+
+    public static function getCatParentsList($category, $lastParent = 0, $fullInfo = true)
+    {
+        // To get category parent tree, we need to collect parent
+        // categories IDs, then get full info about categories
+        
+        settype($category, "integer");
+
+        $return = array();
+        $parent = $category;
+
+        if($fullInfo) $query = "SELECT `id`, `name`, `parent` FROM `categories` WHERE `id` = :id";
+        else $query = "SELECT `id`, `parent` FROM `categories` WHERE `id` = :id";
+
+        // Exception: user want to take info about one category
+        if($parent == $lastParent)
+        {
+            $result = self::$connection->query($query, array(":id" => $parent))->fetchAssoc();
+            if($fullInfo) $return[] = $result;
+            else $return[] = $result["id"];
+        }
+        else
+        {
+            while($parent != $lastParent)
+            {
+                $result = self::$connection->query($query, array(":id" => $parent))->fetchAssoc();
+                $parent = $result["parent"];
+                if($fullInfo) $return[] = $result;
+                else $return[] = $result["id"];
+            }
+        }
+
         return $return;
     }
 }

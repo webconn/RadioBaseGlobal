@@ -27,16 +27,44 @@ function radiobase_menu()
     return _radiobase_menu();
 }
 
+#
+##############################################################
+# Devices pages callbacks
+
 function radiobase_search_devices()
 {
     require_once (RB_ROOT . "/includes/search.inc");
     return _radiobase_search_devices();
 }
 
-function radiobase_page_devices($request, $category=0)
+function radiobase_page_devices($request)
 {
     require_once (RB_ROOT . "/includes/devices.inc");
-    return _radiobase_page_devices($request, $category);
+    return _radiobase_page_devices($request);
+}
+
+function radiobase_device($mode, $device_id)
+{
+    require_once(RB_ROOT . "/includes/devices.inc");
+    return _radiobase_device($mode, $device_id);
+}
+
+function radiobase_title_device($string, $device_id)
+{
+    require_once(RB_ROOT . "/includes/devices.inc");
+    return _radiobase_title_device($string, $device_id);
+}
+
+function radiobase_list_devices($category)
+{
+    require_once(RB_ROOT . "/includes/devices.inc");
+    return _radiobase_list_devices($category);
+}
+
+function radiobase_show_device($device)
+{
+    require_once(RB_ROOT . "/includes/devices.inc");
+    return _radiobase_show_device($device);
 }
 
 function radiobase_add_device()
