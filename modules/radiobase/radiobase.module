@@ -1,15 +1,30 @@
 <?php
 
+// Definition of RadioBase module root directory
 define("RB_ROOT", dirname(__FILE__));
+
+/**
+ * @defgroup Hooks implementations
+ * @{
+ */
+
+/**
+ * Implements hook_boot()
+ */
 
 function radiobase_boot()
 {
     //define("RB_ROOT", dirname(__FILE__));
-    // Include modules   
-
+    
     // Init modules
     RB_Database::setConnection();
 }
+
+/**
+ * Implements hook_block_info()
+ * @todo Move it to include file
+ * @todo Describe more blocks!
+ */
 
 function radiobase_block_info()
 {
@@ -21,57 +36,20 @@ function radiobase_block_info()
     return $blocks;
 }
 
+/**
+ * Implements hook_menu()
+ * Requires include file
+ */
+
 function radiobase_menu()
 {
     require_once (RB_ROOT . "/includes/menu.inc");
     return _radiobase_menu();
 }
 
-#
-##############################################################
-# Devices pages callbacks
-
-function radiobase_search_devices()
-{
-    require_once (RB_ROOT . "/includes/search.inc");
-    return _radiobase_search_devices();
-}
-
-function radiobase_page_devices($request)
-{
-    require_once (RB_ROOT . "/includes/devices.inc");
-    return _radiobase_page_devices($request);
-}
-
-function radiobase_device($mode, $device_id)
-{
-    require_once(RB_ROOT . "/includes/devices.inc");
-    return _radiobase_device($mode, $device_id);
-}
-
-function radiobase_title_device($string, $device_id)
-{
-    require_once(RB_ROOT . "/includes/devices.inc");
-    return _radiobase_title_device($string, $device_id);
-}
-
-function radiobase_list_devices($category)
-{
-    require_once(RB_ROOT . "/includes/devices.inc");
-    return _radiobase_list_devices($category);
-}
-
-function radiobase_show_device($device)
-{
-    require_once(RB_ROOT . "/includes/devices.inc");
-    return _radiobase_show_device($device);
-}
-
-function radiobase_add_device()
-{
-    require_once (RB_ROOT . "/includes/devices.inc");
-    return _radiobase_add_device();
-}
+/**
+ * Implements hook_block_view()
+ */
 
 function radiobase_block_view($delta)
 {
@@ -98,6 +76,10 @@ function radiobase_block_view($delta)
     
     return $block;
 }
+
+/**
+ * Implements hook_permission()
+ */
 
 function radiobase_permission()
 {
@@ -133,3 +115,7 @@ function radiobase_permission()
         )
     );
 }
+
+/**
+ * @}
+ */

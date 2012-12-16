@@ -2,10 +2,11 @@
 
 function _radiobase_menu()
 {
-    // Here the main menu is described
     
-    ################################################################################
-    # Devices
+    /**
+     * @defgroup Devices
+     * @{
+     */
 
     $items["devices"] = array(
         "title" => "Devices manager",
@@ -17,8 +18,6 @@ function _radiobase_menu()
         "file" => "includes/devices.inc"
     );
 
-    // List devices from database
-    
     $items["devices/list/%"] = array(
         "title" => "List devices",
         "description" => "Show the list of the devices in global RadioBase",
@@ -28,8 +27,6 @@ function _radiobase_menu()
         "type" => MENU_NORMAL_ITEM,
         "file" => "includes/devices.inc"
     );
-    
-    // Search devices in RadioBase
     
     $items["devices/search"] = array(
         "title" => "Search",
@@ -48,8 +45,6 @@ function _radiobase_menu()
         "type" => MENU_NORMAL_ITEM,
         "file" => "includes/devices.inc"
     );
-    
-    // Show concrete device
     
     $items["device/%"] = array(
         "title callback" => "_radiobase_title_device",
@@ -81,142 +76,203 @@ function _radiobase_menu()
         "type" => MENU_LOCAL_TASK,
         "file" => "includes/devices.inc"
     );
+
+    /**
+     * @}
+     */
     
-    ##############################################################################################################
-    # Categories
-    
+    /**
+     * @defgroup Categories
+     * @{
+     */
+
     $items["cats"] = array(
         "title" => "Category manager",
         "description" => "Manage device categories in global RadioBase",
-        "page callback" => "radiobase_page_cats",
+        "page callback" => "_radiobase_page_cats",
         "page arguments" => array("list features"),
         "access arguments" => array("access content"),
-        "type" => MENU_NORMAL_ITEM
+        "type" => MENU_NORMAL_ITEM,
+        "file" => "includes/cats.inc"
     );
     
     $items["cats/tree"] = array(
         "title" => "Category tree",
         "description" => "View category tree",
-        "page callback" => "radiobase_page_cats",
+        "page callback" => "_radiobase_list_cats",
         "page arguments" => array("tree"),
         "access arguments" => array("access content"),
-        "type" => MENU_LOCAL_TASK
+        "type" => MENU_LOCAL_TASK,
+        "file" => "includes/cats.inc"
     );
 
     $items["cat/%"] = array(
-        "title" => "Category @name: show",
-        "title callback" => "radiobase_title_cat",
-        "title arguments" => array(1),
-        "page callback" => "radiobase_cat",
-        "page arguments" => array("show", 1),
+        "title callback" => "_radiobase_title_cat",
+        "title arguments" => array("view", 1),
+        "page callback" => "_radiobase_cat",
+        "page arguments" => array("view", 1),
         "access arguments" => array("access content"),
-        "type" => MENU_DEFAULT_LOCAL_TASK
+        "type" => MENU_NORMAL_ITEM,
+        "file" => "includes/cats.inc"
+    );
+
+    $items["cat/%/view"] = array(
+        "title callback" => "_radiobase_title_cat",
+        "title arguments" => array("view", 1),
+        "page callback" => "_radiobase_cat",
+        "page arguments" => array("view", 1),
+        "access arguments" => array("access content"),
+        "type" => MENU_DEFAULT_LOCAL_TASK,
+        "file" => "includes/cats.inc",
+        "weight" => -10
     );
     
     $items["cat/%/edit"] = array(
-        "title" => "Category @name: edit",
-        "title callback" => "radiobase_title_cat",
-        "title arguments" => array(1),
-        "page callback" => "radiobase_cat",
+        "title callback" => "_radiobase_title_cat",
+        "title arguments" => array("edit", 1),
+        "page callback" => "_radiobase_cat",
         "page arguments" => array("edit", 1),
         "access arguments" => array("rb edit items"),
-        "type" => MENU_LOCAL_TASK
+        "type" => MENU_LOCAL_TASK,
+        "file" => "includes/cats.inc"
     );
 
-    ##########################################################################
-    # Cases
+    /**
+     * @}
+     */
+
+    /**
+     * @defgroup Cases
+     * @{
+     */
     
     $items["cases"] = array(
         "title" => "Cases manager",
-        "page callback" => "radiobase_page_cases",
+        "page callback" => "_radiobase_page_cases",
         "page arguments" => array("list features"),
         "access arguments" => array("access content"),
-        "type" => MENU_NORMAL_ITEM
+        "type" => MENU_NORMAL_ITEM,
+        "file" => "includes/cases.inc"
     );
 
     $items["cases/list/%"] = array(
         "title" => "Cases list",
-        "page callback" => "radiobase_list_cases",
+        "page callback" => "_radiobase_list_cases",
         "page arguments" => array(2),
         "access arguments" => array("access content"),
-        "type" => MENU_NORMAL_ITEM
+        "type" => MENU_NORMAL_ITEM,
+        "file" => "includes/cases.inc"
+    );
+    
+    $items["case/%"] = array(
+        "title callback" => "_radiobase_title_case",
+        "title arguments" => array("view", 1),
+        "page callback" => "_radiobase_case",
+        "page arguments" => array("view", 1),
+        "access arguments" => array("access content"),
+        "type" => MENU_NORMAL_ITEM,
+        "file" => "includes/cases.inc"
     );
 
-    $items["case/%"] = array(
-        "title" => "Case @name: show",
-        "title callback" => "radiobase_title_case",
-        "title arguments" => array(1),
-        "page callback" => "radiobase_case",
-        "page arguments" => array("show", 1),
+    $items["case/%/view"] = array(
+        "title callback" => "_radiobase_title_case",
+        "title arguments" => array("view", 1),
+        "page callback" => "_radiobase_case",
+        "page arguments" => array("view", 1),
         "access arguments" => array("access content"),
-        "type" => MENU_DEFAULT_LOCAL_TASK
+        "type" => MENU_DEFAULT_LOCAL_TASK,
+        "file" => "includes/cases.inc",
+        "weight" => -10
     );
     
     $items["case/%/edit"] = array(
-        "title" => "Case @name: edit",
-        "title callback" => "radiobase_title_case",
-        "title arguments" => array(1),
-        "page callback" => "radiobase_case",
+        "title callback" => "_radiobase_title_case",
+        "title arguments" => array("edit", 1),
+        "page callback" => "_radiobase_case",
         "page arguments" => array("edit", 1),
         "access arguments" => array("rb edit items"),
-        "type" => MENU_LOCAL_TASK
+        "type" => MENU_LOCAL_TASK,
+        "file" => "includes/cases.inc"
     );
 
-    ###################################################################
-    # Parts
-    
+    /**
+     * @}
+     */
+
+    /**
+     * @defgroup Parts
+     * @{
+     */
     
     $items["parts"] = array(
         "title" => "Parts manager",
-        "page callback" => "radiobase_page_parts",
+        "page callback" => "_radiobase_page_parts",
         "page arguments" => array("list features"),
         "access arguments" => array("access content"),
-        "type" => MENU_NORMAL_ITEM
+        "type" => MENU_NORMAL_ITEM,
+        "file" => "includes/parts.inc"
     );
 
     $items["parts/list"] = array( // list all parts in database
         "title" => "Parts list",
-        "page callback" => "radiobase_list_parts",
+        "page callback" => "_radiobase_list_parts",
         "page arguments" => array("by-cat", "0"),
         "access arguments" => array("access content"),
-        "type" => MENU_NORMAL_ITEM
+        "type" => MENU_NORMAL_ITEM,
+        "file" => "includes/parts.inc"
     );
 
     $items["parts/list/%"] = array( // list parts by category
         "title" => "Parts list",
-        "page callback" => "radiobase_list_parts",
+        "page callback" => "_radiobase_list_parts",
         "page arguments" => array("by-cat", 2),
         "access arguments" => array("access content"),
-        "type" => MENU_NORMAL_ITEM
+        "type" => MENU_NORMAL_ITEM,
+        "file" => "includes/parts.inc"
     );
 
     $items["parts/list/%/%"] = array( // selected filter type and criterium
         "title" => "Parts list",
-        "page callback" => "radiobase_list_parts",
+        "page callback" => "_radiobase_list_parts",
         "page arguments" => array(2, 3),
         "access arguments" => array("access content"),
-        "type" => MENU_NORMAL_ITEM
+        "type" => MENU_NORMAL_ITEM,
+        "file" => "includes/parts.inc"
     );
 
     $items["part/%"] = array(
-        "title" => "Part @name: show",
-        "title callback" => "radiobase_title_part",
-        "title arguments" => array(1),
-        "page callback" => "radiobase_part",
-        "page arguments" => array("show", 1),
+        "title callback" => "_radiobase_title_part",
+        "title arguments" => array("view", 1),
+        "page callback" => "_radiobase_part",
+        "page arguments" => array("view", 1),
         "access arguments" => array("access content"),
-        "type" => MENU_DEFAULT_LOCAL_TASK
+        "type" => MENU_NORMAL_ITEM,
+        "file" => "includes/parts.inc"
+    );
+
+    $items["part/%/view"] = array(
+        "title callback" => "_radiobase_title_part",
+        "title arguments" => array("view", 1),
+        "page callback" => "_radiobase_part",
+        "page arguments" => array("view", 1),
+        "access arguments" => array("access content"),
+        "type" => MENU_DEFAULT_LOCAL_TASK,
+        "file" => "includes/parts.inc",
+        "weight" => -10
     );
     
     $items["part/%/edit"] = array(
-        "title" => "Part @name: edit",
-        "title callback" => "radiobase_title_part",
-        "title arguments" => array(1),
-        "page callback" => "radiobase_part",
+        "title callback" => "_radiobase_title_part",
+        "title arguments" => array("edit", 1),
+        "page callback" => "_radiobase_part",
         "page arguments" => array("edit", 1),
         "access arguments" => array("rb edit items"),
-        "type" => MENU_LOCAL_TASK
+        "type" => MENU_LOCAL_TASK,
+        "file" => "includes/parts.inc"
     );
+    /**
+     * @}
+     */
 
 
     return $items;
