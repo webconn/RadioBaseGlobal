@@ -12,7 +12,6 @@ function _radiobase_menu()
         "title" => "Devices manager",
         "description" => "Manage devices in global RadioBase",
         "page callback" => "_radiobase_page_devices",
-        "page arguments" => array("list features"),
         "access arguments" => array("access content"),
         "type" => MENU_NORMAL_ITEM,
         "file" => "includes/devices.inc"
@@ -23,15 +22,6 @@ function _radiobase_menu()
         "description" => "Show the list of the devices in global RadioBase",
         "page callback" => "_radiobase_list_devices",
         "page arguments" => array(2),
-        "access arguments" => array("access content"),
-        "type" => MENU_NORMAL_ITEM,
-        "file" => "includes/devices.inc"
-    );
-    
-    $items["devices/search"] = array(
-        "title" => "Search",
-        "description" => "Search for the devices in global RadioBase",
-        "page callback" => "_radiobase_search_devices",
         "access arguments" => array("access content"),
         "type" => MENU_NORMAL_ITEM,
         "file" => "includes/devices.inc"
@@ -48,7 +38,7 @@ function _radiobase_menu()
     
     $items["device/%"] = array(
         "title callback" => "_radiobase_title_device",
-        "title arguments" => array("view", 1),
+        "title arguments" => array(1),
         "page callback" => "_radiobase_device",
         "page arguments" => array("view", 1),
         "access arguments" => array("access content"),
@@ -57,8 +47,7 @@ function _radiobase_menu()
     );
 
     $items["device/%/view"] = array(
-        "title callback" => "_radiobase_title_device",
-        "title arguments" => array("view", 1),
+        "title" => "View",
         "page callback" => "_radiobase_device",
         "page arguments" => array("view", 1),
         "access arguments" => array("access content"),
@@ -68,8 +57,7 @@ function _radiobase_menu()
     );
     
     $items["device/%/edit"] = array(
-        "title callback" => "_radiobase_title_device",
-        "title arguments" => array("edit", 1),
+        "title" => "Edit",
         "page callback" => "_radiobase_device",
         "page arguments" => array("edit", 1),
         "access arguments" => array("rb edit items"),
@@ -90,7 +78,6 @@ function _radiobase_menu()
         "title" => "Category manager",
         "description" => "Manage device categories in global RadioBase",
         "page callback" => "_radiobase_page_cats",
-        "page arguments" => array("list features"),
         "access arguments" => array("access content"),
         "type" => MENU_NORMAL_ITEM,
         "file" => "includes/cats.inc"
@@ -108,7 +95,7 @@ function _radiobase_menu()
 
     $items["cat/%"] = array(
         "title callback" => "_radiobase_title_cat",
-        "title arguments" => array("view", 1),
+        "title arguments" => array(1),
         "page callback" => "_radiobase_cat",
         "page arguments" => array("view", 1),
         "access arguments" => array("access content"),
@@ -117,8 +104,7 @@ function _radiobase_menu()
     );
 
     $items["cat/%/view"] = array(
-        "title callback" => "_radiobase_title_cat",
-        "title arguments" => array("view", 1),
+        "title" => "View",
         "page callback" => "_radiobase_cat",
         "page arguments" => array("view", 1),
         "access arguments" => array("access content"),
@@ -128,8 +114,7 @@ function _radiobase_menu()
     );
     
     $items["cat/%/edit"] = array(
-        "title callback" => "_radiobase_title_cat",
-        "title arguments" => array("edit", 1),
+        "title" => "Edit",
         "page callback" => "_radiobase_cat",
         "page arguments" => array("edit", 1),
         "access arguments" => array("rb edit items"),
@@ -149,7 +134,6 @@ function _radiobase_menu()
     $items["cases"] = array(
         "title" => "Cases manager",
         "page callback" => "_radiobase_page_cases",
-        "page arguments" => array("list features"),
         "access arguments" => array("access content"),
         "type" => MENU_NORMAL_ITEM,
         "file" => "includes/cases.inc"
@@ -166,7 +150,7 @@ function _radiobase_menu()
     
     $items["case/%"] = array(
         "title callback" => "_radiobase_title_case",
-        "title arguments" => array("view", 1),
+        "title arguments" => array(1),
         "page callback" => "_radiobase_case",
         "page arguments" => array("view", 1),
         "access arguments" => array("access content"),
@@ -175,8 +159,7 @@ function _radiobase_menu()
     );
 
     $items["case/%/view"] = array(
-        "title callback" => "_radiobase_title_case",
-        "title arguments" => array("view", 1),
+        "title" => "View",
         "page callback" => "_radiobase_case",
         "page arguments" => array("view", 1),
         "access arguments" => array("access content"),
@@ -186,8 +169,7 @@ function _radiobase_menu()
     );
     
     $items["case/%/edit"] = array(
-        "title callback" => "_radiobase_title_case",
-        "title arguments" => array("edit", 1),
+        "title" => "Edit",
         "page callback" => "_radiobase_case",
         "page arguments" => array("edit", 1),
         "access arguments" => array("rb edit items"),
@@ -207,7 +189,6 @@ function _radiobase_menu()
     $items["parts"] = array(
         "title" => "Parts manager",
         "page callback" => "_radiobase_page_parts",
-        "page arguments" => array("list features"),
         "access arguments" => array("access content"),
         "type" => MENU_NORMAL_ITEM,
         "file" => "includes/parts.inc"
@@ -242,7 +223,7 @@ function _radiobase_menu()
 
     $items["part/%"] = array(
         "title callback" => "_radiobase_title_part",
-        "title arguments" => array("view", 1),
+        "title arguments" => array(1),
         "page callback" => "_radiobase_part",
         "page arguments" => array("view", 1),
         "access arguments" => array("access content"),
@@ -251,8 +232,7 @@ function _radiobase_menu()
     );
 
     $items["part/%/view"] = array(
-        "title callback" => "_radiobase_title_part",
-        "title arguments" => array("view", 1),
+        "title" => "View",
         "page callback" => "_radiobase_part",
         "page arguments" => array("view", 1),
         "access arguments" => array("access content"),
@@ -262,8 +242,7 @@ function _radiobase_menu()
     );
     
     $items["part/%/edit"] = array(
-        "title callback" => "_radiobase_title_part",
-        "title arguments" => array("edit", 1),
+        "title" => "Edit",
         "page callback" => "_radiobase_part",
         "page arguments" => array("edit", 1),
         "access arguments" => array("rb edit items"),
